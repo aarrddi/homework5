@@ -52,32 +52,5 @@
           </tbody>
         </table>
       </div>
-      <script>
-      let data = []
-        function getDataInput(){   
-            const namaInput = document.getElementById("nama")
-            console.log(namaInput.value)
-            data.push(namaInput.value)
-            console.log(data)
-   
-            const node = document.createElement("li")
-            const value_li = document.createTextNode(namaInput.value)
-            node.appendChild(value_li)
-            document.getElementById("nama_hero").appendChild(node)
-        }
-        function testFunction(){
-            const list_pelatihan = document.getElementsByTagName("li") 
-            document.getElementById("Pilih_kelas").innerHTML = list_pelatihan[5].innerHTML
-            list_pelatihan[6].innerHTML = "merdeka mobile developer ios"
-        for (let index = 0; index < list_pelatihan.length; index++) {
-            console.log(list_pelatihan[index]);
-            
-        }
-console.log(list_pelatihan);
-            const kelas_pelatihan = document.getElementsByClassName("kelas")
-            kelas_pelatihan[0].innerHTML = "rakamin Merdeka"
-            kelas_pelatihan[1].innerHTML = "rakamin Jaya"
-        }
-            </script>
   </body>
 </html>
