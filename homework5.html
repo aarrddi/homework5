@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pendaftaran dan Tabel Pendaftar</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pendaftaran dan Tabel Pendaftar</h1>
+  <form id="registrationForm">
+    <label for="nama">Nama:</label>
+    <input type="text" id="nama" required>
+    <br>
+    <label for="umur">Umur:</label>
+    <input type="number" id="umur" required>
+    <br>
+    <label for="uangSangu">Uang Sangu:</label>
+    <input type="number" id="uangSangu" required>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <br>
+  <table id="registrantTable">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Umur</th>
+        <th>Uang Sangu</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Kelas untuk mengelola data pendaftar
+    class RegistrantManager {
+      constructor() {
+        this.registrants = [];
+      }
+
+      addRegistrant(registrant) {
+        this.registrants.push(registrant);
+      }
+
+      getRegistrants() {
+        return this.registrants;
+      }
+    }
+
+    // Kelas untuk mengelola tampilan tabel pendaftar
+    class TableManager {
+      constructor(tableId) {
+        this.table = document.getElementById(tableId);
+        this.tbody = this.table.querySelector('tbody');
+      }
+
+      clearTable() {
+        this.tbody.innerHTML = '';
+      }
+
+      renderRegistrants(registrants) {
+        this.clearTable();
+
+        registrants.forEach(registrant => {
+          const row = document.createElement('tr');
+          const namaCell = document.createElement('td');
+          const umurCell = document.createElement('td');
+          const uangSanguCell = document.createElement('td');
+
+          namaCell.textContent = registrant.nama;
+          umurCell.textContent = registrant.umur;
+          uangSanguCell.textContent = registrant.uangSangu;
+
+
+          row.appendChild(namaCell);
+          row.appendChild(umurCell);
+          row.appendChild(uangSanguCell);
+
+          this.tbody.appendChild(row);
+        });
+      }
+    }
+
+    //untuk mengelola form pendaftaran
+    class FormManager {
+      constructor(formId, registrantManager, tableManager) {
+        this.form = document.getElementById(formId);
+        this.registrantManager = registrantManager;
+        this.tableManager = tableManager;
+
+        this.form.addEventListener('submit', this.handleSubmit.bind(this));
+      }
+
+      handleSubmit(event) {
+        event.preventDefault();
+
+        const namaInput = document.getElementById('nama');
+        const umurInput = document.getElementById('umur');
+        const uangSanguInput = document.getElementById('uangSangu');
+
+        const nama = namaInput.value;
+        const umur = umurInput.value;
+        const uangSangu = uangSanguInput.value;
+
+        const registrant = { nama, umur, uangSangu };
+
+        this.registrantManager.addRegistrant(registrant);
+
+        const registrants = this.registrantManager.getRegistrants();
+        this.tableManager.renderRegistrants(registrants);
+
+        namaInput.value = '';
+        umurInput.value = '';
+        uangSanguInput.value = '';
+      }
+    }
+
+    // Membuat instance dari RegistrantManager dan TableManager
+    const registrantManager = new RegistrantManager();
+    const tableManager = new TableManager('registrantTable');
+
+    // Membuat instance dari FormManager dan menghubungkannya dengan RegistrantManager dan TableManager
+    const formManager = new FormManager('registrationForm', registrantManager, tableManager);
+  </script>
+</body>
+</html>
